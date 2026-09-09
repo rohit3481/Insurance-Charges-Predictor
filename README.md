@@ -12,7 +12,7 @@
 
 The deployed Streamlit application lets users explore the dataset, perform interactive EDA, enter applicant information, generate insurance-charge predictions, and review model performance.
 
-> Replace `PASTE_YOUR_STREAMLIT_LINK_HERE` with your actual Streamlit app URL.
+
 
 ## 📌 Project Overview
 
