@@ -1,29 +1,29 @@
 # 🛡️ Insurance Charges Predictor
 
-An end-to-end machine learning application for **insurance cost analysis and prediction**.
+**An end-to-end machine learning application for insurance cost analysis and prediction.**
 
-The project takes the workflow from raw data to an interactive Streamlit application, combining **EDA, feature engineering, SQL, model training, evaluation, and prediction** in one place.
+**Author:** Rohit Singh  
+**Program:** B.Tech — Electrical & Electronics Engineering  
+**Institute:** NITK Surathkal
 
----
+## 🚀 Live Demo
+
+👉 **[Open the Insurance Charges Predictor](PASTE_YOUR_STREAMLIT_LINK_HERE)**
+
+The deployed Streamlit application lets users explore the dataset, perform interactive EDA, enter applicant information, generate insurance-charge predictions, and review model performance.
+
+> Replace `PASTE_YOUR_STREAMLIT_LINK_HERE` with your actual Streamlit app URL.
 
 ## 📌 Project Overview
 
-The goal is to predict an individual's **medical insurance charges** from demographic, lifestyle, coverage, and medical-history information.
+The goal is to predict an individual's **medical insurance charges** using demographic, lifestyle, coverage, and medical-history information.
 
-The dataset contains **100,000 records** and 12 columns, with:
+**Workflow:** Raw Data → Data Cleaning → EDA → Feature Engineering → Data Transformation → Model Training & Tuning → Model Evaluation → Streamlit Application
 
-- **3 numerical features** — `age`, `bmi`, `children`
-- **8 categorical features** — `gender`, `smoker`, `region`, `medical_history`, `family_medical_history`, `exercise_frequency`, `occupation`, `coverage_level`
-- **1 target variable** — `charges`
-
-The application provides four practical capabilities:
-
-- **Dataset Overview** — inspect the raw dataset and schema
-- **Visual EDA** — explore distributions, relationships, missingness, outliers, and engineered features
-- **Ask in Plain English** — query the dataset using natural language and generated SQL
-- **Prediction & Model Performance** — generate predictions and evaluate the trained models
-
----
+### Dataset Features
+- **Numerical:** `age`, `bmi`, `children`
+- **Categorical:** `gender`, `smoker`, `region`, `medical_history`, `family_medical_history`, `exercise_frequency`, `occupation`, `coverage_level`
+- **Target:** `charges`
 
 ## 🏗️ Project Architecture
 
@@ -31,37 +31,24 @@ The application provides four practical capabilities:
 Raw CSV Dataset
        │
        ▼
-Data Ingestion
-       │
-       ├── Remove duplicates
-       ├── Select modelling columns
-       ├── Handle missing medical history
-       └── Create train / validation / test splits
+Data Ingestion & Cleaning
        │
        ▼
 Feature Engineering
-       │
        ├── BMI category
        ├── Age group
        ├── Smoker × BMI interaction
        └── Missingness indicators
        │
        ▼
-SQLite Data Layer
-       │
-       └── SQL-based split retrieval and analysis
-       │
-       ▼
 Data Transformation
-       │
-       ├── Median imputation + scaling
+       ├── Median imputation
+       ├── Standard scaling
        ├── One-hot encoding
        └── Ordinal encoding
        │
        ▼
-Model Training
-       │
-       ├── DummyRegressor
+Model Training & Tuning
        ├── Linear Regression
        ├── Ridge
        ├── ElasticNet
@@ -70,11 +57,10 @@ Model Training
        │
        ▼
 Model Evaluation
-       │
        ├── R²
        ├── Adjusted R²
-       ├── RMSE
        ├── MAE
+       ├── RMSE
        ├── MAPE
        └── Diagnostic plots
        │
@@ -82,21 +68,17 @@ Model Evaluation
 Streamlit Application
 ```
 
----
-
 ## 📊 Exploratory Data Analysis
 
-The Visual EDA module is designed to answer analytical questions rather than only display basic statistics.
+The application provides interactive EDA to understand the data and relationships associated with insurance charges.
 
 ### Univariate Analysis
-
 - Numerical distributions
 - Categorical distributions
-- Insurance charge distribution
+- Insurance-charge distribution
 - Quartiles and skewness
 
 ### Bivariate / Multivariate Analysis
-
 - Numerical features vs. insurance charges
 - Trend analysis
 - Two-way categorical comparisons
@@ -104,108 +86,43 @@ The Visual EDA module is designed to answer analytical questions rather than onl
 - Smoker × Age interaction
 - Pairwise numerical relationships
 
-### Missing Data / Data Quality
-
-- Missing-value counts and percentages
+### Data Quality
+- Missing-value counts
 - Missingness patterns
-- Comparison of charges for missing vs. present medical history
-- Duplicate-row and schema checks
+- Duplicate-row checks
+- Schema checks
 
 ### Outlier Detection
-
 - IQR-based outlier detection
-- Box-plot based inspection
+- Box-plot inspection
 - Charge outliers by smoking status
 
 ### Feature Engineering Validation
-
-The EDA also validates whether engineered features have meaningful relationships with the target:
-
 - `bmi_category`
 - `age_group`
 - `smoker_bmi_interaction`
 - `medical_history_missing`
 - `family_medical_history_missing`
 
----
-
 ## 🧩 Feature Engineering
 
-The model starts with the original 11 predictor variables and creates additional features.
-
 ### BMI Category
-
-BMI is converted into ordered categories:
-
 ```text
 Underweight → Normal → Overweight → Obese
 ```
 
 ### Age Group
-
-Age is grouped into ordered ranges:
-
 ```text
 18-25 → 26-35 → 36-45 → 46-55 → 56-65
 ```
 
 ### Smoker × BMI Interaction
-
-A numerical interaction feature captures the combined effect of BMI and smoking status.
-
 ```text
 smoker_bmi_interaction = BMI × is_smoker
 ```
 
 ### Missingness Indicators
-
-`medical_history` and `family_medical_history` contain genuine missing values.
-
-The pipeline:
-
-1. creates a missingness indicator;
-2. fills the categorical value with `"Unknown"`.
-
-This preserves information about the fact that the value was missing.
-
----
-
-## 🗄️ SQL Data Layer
-
-The project uses **SQLite** as a lightweight data layer.
-
-The processed dataset is stored with a `split` column identifying:
-
-- `train`
-- `val`
-- `test`
-
-The project uses SQL for:
-
-- filtering
-- grouping
-- aggregation
-- train/validation/test retrieval
-
-### Ask in Plain English
-
-Users can ask questions such as:
-
-```text
-How many people have diabetes and are over 50?
-```
-
-or:
-
-```text
-Average charges for premium coverage by region
-```
-
-The application uses **Groq** to generate SQL from the natural-language question.
-
-The generated SQL is then validated before execution, and only read-only queries are allowed.
-
----
+Missing values in `medical_history` and `family_medical_history` are represented using missingness indicators, while categorical missing values are handled as `"Unknown"` during preprocessing.
 
 ## 🤖 Machine Learning
 
@@ -213,128 +130,53 @@ The training pipeline compares multiple regression models:
 
 | Model | Purpose |
 |---|---|
-| DummyRegressor | Baseline reference |
-| Linear Regression | Simple interpretable baseline |
+| Linear Regression | Interpretable baseline |
 | Ridge | Regularized linear model |
 | ElasticNet | L1 + L2 regularization |
 | Random Forest | Non-linear ensemble model |
 | XGBoost | Gradient-boosted tree model |
 
-### Hyperparameter Tuning
-
 Tunable models use:
-
 - `RandomizedSearchCV`
 - 5-fold cross-validation
-- configurable `R²` scoring
-- configurable search iterations
+- R² scoring
+- Configurable search iterations
 
-All model hyperparameter search spaces are maintained in **`config.yaml`**, keeping training configuration separate from training logic.
-
-### XGBoost
-
-XGBoost supports:
-
-- automatic CPU/GPU selection
-- configurable device selection
-- validation-based early stopping
-
-### Model Selection
-
-Models are compared using validation performance and cross-validation stability.
-
-When a simpler model performs within the top model's CV uncertainty, the project prefers the simpler model rather than selecting a more complex model for a negligible gain.
-
----
+The final model is selected using validation performance and cross-validation stability, while considering model simplicity and interpretability.
 
 ## 📈 Model Evaluation
 
-The final selected model is evaluated on a held-out test set.
-
-### Metrics
+The final selected model is evaluated on a held-out test set using:
 
 - **R²**
 - **Adjusted R²**
-- **RMSE**
 - **MAE**
+- **RMSE**
 - **MAPE**
 
 ### Diagnostic Plots
-
-The Streamlit application provides:
-
-- **Actual vs Predicted**
-- **Residual Analysis**
-- **Q-Q Plot**
-- **Feature Importance**
-- **Learning Curve**
-
-These diagnostics help evaluate both predictive performance and model behavior.
-
----
+- Actual vs. Predicted
+- Residual Analysis
+- Q-Q Plot
+- Feature Importance
+- Learning Curve
 
 ## 🖥️ Streamlit Application
 
 ### 📊 Dataset Overview
-
-Shows:
-
-- row and column counts
-- missing values
-- duplicate rows
-- complete raw dataset
-- feature schema
+Shows row/column counts, missing values, duplicate rows, dataset preview, and feature schema.
 
 ### 🔎 Exploratory Analysis
-
-Contains two tabs:
-
-#### 📈 Visual EDA
-
-Interactive analytical visualizations covering:
-
-- univariate analysis
-- bivariate / multivariate relationships
-- missing data
-- outliers
-- feature-engineering validation
-
-#### 🤖 Ask in Plain English
-
-A natural-language interface for running validated SQL queries against the SQLite dataset.
+Interactive visual analysis covering univariate analysis, bivariate/multivariate relationships, missing data, outliers, and feature-engineering validation.
 
 ### 💰 Predict
-
-Users enter applicant information such as:
-
-- age
-- gender
-- BMI
-- children
-- smoking status
-- region
-- occupation
-- coverage level
-- exercise frequency
-- medical history
-
-The application then generates the predicted insurance charge using the persisted preprocessing pipeline and champion model.
+Users enter applicant information including age, gender, BMI, children, smoking status, region, occupation, coverage level, exercise frequency, medical history, and family medical history. The application then generates a predicted insurance charge using the persisted preprocessing pipeline and trained model.
 
 ### 📈 Model Performance
-
-Shows:
-
-- champion model
-- test performance metrics
-- model comparison
-- validation R² comparison
-- diagnostic plots
+Shows the champion model, test metrics, model comparison, validation R² comparison, and diagnostic plots.
 
 ### ℹ️ About
-
-Provides a concise overview of the project, architecture, modelling approach, and technology stack.
-
----
+Provides an overview of the project, modelling workflow, and technology stack.
 
 ## 📁 Project Structure
 
@@ -344,16 +186,12 @@ Insurance-Charges-Predictor/
 ├── config.yaml
 ├── main.py
 ├── requirements.txt
+├── setup.py
+├── README.md
 │
 ├── data/
 │   ├── raw/
-│   │   └── insurance_dataset.csv
 │   └── processed/
-│       ├── raw_engineered.csv
-│       ├── train.csv
-│       ├── val.csv
-│       ├── test.csv
-│       └── insurance.db
 │
 ├── artifacts/
 │   ├── preprocessor.pkl
@@ -361,7 +199,6 @@ Insurance-Charges-Predictor/
 │   ├── model_metadata.json
 │   ├── model_comparison.csv
 │   ├── evaluation_report.json
-│   ├── vif_report.json
 │   └── plots/
 │
 ├── src/
@@ -370,14 +207,9 @@ Insurance-Charges-Predictor/
 │   │   ├── data_transformation.py
 │   │   ├── model_trainer.py
 │   │   └── model_evaluation.py
-│   │
 │   ├── pipeline/
 │   │   ├── train_pipeline.py
 │   │   └── predict_pipeline.py
-│   │
-│   ├── sql_queries.py
-│   ├── nl_to_sql.py
-│   ├── groq_client.py
 │   ├── utils.py
 │   ├── logger.py
 │   └── exception.py
@@ -386,77 +218,34 @@ Insurance-Charges-Predictor/
     └── app.py
 ```
 
----
-
 ## ⚙️ Configuration
 
-The project uses **`config.yaml` as the single source of truth** for:
-
-- dataset paths
-- train/validation/test split
-- feature schema
-- cross-validation settings
-- XGBoost settings
-- model enable/disable flags
-- model hyperparameter search spaces
-- artifact paths
-
-This keeps experiment configuration separate from implementation code.
-
----
+`config.yaml` acts as the central configuration file for dataset paths, train/validation/test split, feature schema, cross-validation settings, XGBoost settings, model flags, hyperparameter search spaces, and artifact paths.
 
 ## 🚀 Installation
 
-Clone the repository and move into the project directory:
-
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/rohit3481/Insurance-Charges-Predictor.git
 cd Insurance-Charges-Predictor
-```
-
-Create a virtual environment:
-
-```bash
 python -m venv .venv
 ```
 
-Activate it on Windows:
-
+Windows:
 ```bash
 .venv\Scripts\activate
 ```
 
-Activate it on Linux/macOS:
-
+Linux/macOS:
 ```bash
 source .venv/bin/activate
 ```
 
 Install dependencies:
-
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## 🔑 Environment Variables
-
-The natural-language SQL feature uses a Groq API key.
-
-Create a `.env` file in the project root:
-
-```env
-GROQ_API_KEY=your_groq_api_key
-```
-
-The prediction and core EDA functionality do not depend on the Groq feature.
-
----
-
 ## ▶️ Run the Training Pipeline
-
-Run:
 
 ```bash
 python main.py
@@ -467,6 +256,8 @@ This executes:
 ```text
 Data Ingestion
       ↓
+Feature Engineering
+      ↓
 Data Transformation
       ↓
 Model Training & Tuning
@@ -476,21 +267,13 @@ Model Selection
 Model Evaluation
 ```
 
-The resulting model, preprocessor, metrics, and diagnostic plots are stored in the configured artifact locations.
-
----
-
-## 🌐 Run the Streamlit Application
-
-Start the application with:
+## 🌐 Run the Streamlit Application Locally
 
 ```bash
 streamlit run streamlit_app/app.py
 ```
 
-Then open the local Streamlit URL shown in the terminal.
-
----
+For the easiest experience, use the **Live Demo** link at the top of this README.
 
 ## 🛠️ Technology Stack
 
@@ -498,26 +281,18 @@ Then open the local Streamlit URL shown in the terminal.
 |---|---|
 | Language | Python |
 | Data Analysis | Pandas, NumPy |
-| Visualization | Plotly, Matplotlib, Seaborn |
+| Visualization | Plotly |
 | Machine Learning | Scikit-learn |
 | Gradient Boosting | XGBoost |
-| Statistics | SciPy, Statsmodels |
-| Database | SQLite |
-| Natural-Language SQL | Groq |
 | Frontend | Streamlit |
 | Configuration | YAML |
 | Model Persistence | Joblib |
 
----
-
 ## 🎯 What This Project Demonstrates
-
-This project is designed to demonstrate practical skills across:
 
 - Exploratory Data Analysis
 - Data Cleaning
 - Feature Engineering
-- SQL
 - Regression Modelling
 - Hyperparameter Tuning
 - Cross-Validation
@@ -525,15 +300,13 @@ This project is designed to demonstrate practical skills across:
 - Model Evaluation
 - Data Visualization
 - Streamlit Application Development
-- Configuration-driven ML pipelines
-- Production-oriented project structure
-
-The focus is on building a complete **data-to-application workflow**, not just training a single machine learning model.
-
----
+- Configuration-driven ML workflow
+- End-to-end data-to-application development
 
 ## 👤 Author
 
-**Nishit Kumar**  
-B.Tech — Mining Engineering, NITK Surathkal
+**Rohit Singh**  
+B.Tech — Electrical & Electronics Engineering  
+**NITK Surathkal**
 
+[GitHub](https://github.com/rohit3481)
