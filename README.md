@@ -8,7 +8,7 @@
 
 ## 🚀 Live Demo
 
-👉 **[Open the Insurance Charges Predictor](PASTE_YOUR_STREAMLIT_LINK_HERE)**
+👉 **[Open the Insurance Charges Predictor](👉 **[Open the Insurance Charges Predictor](https://insurance-charges-predictor-2026.streamlit.app/)**)**
 
 The deployed Streamlit application lets users explore the dataset, perform interactive EDA, enter applicant information, generate insurance-charge predictions, and review model performance.
 
